@@ -46,10 +46,10 @@ Nhóm đang thiết kế các màn hình dự kiến như Splash/Onboarding, Hom
 
 | Người phụ trách | Màn hình | Tình trạng |
 |---|---|---|
-| **Nguyễn Thị Như Ý** | 01–05, 24 (Splash, Onboarding, Home, Settings) |
-| **Thái Duy Cường** | 06–09, 22–23 (Level, Lesson, Vocabulary, Favorites) |
-| **Phạm Thành Long** | 10–14, 20 (Flashcard, Progress) |
-| **Huỳnh Tấn Trung**| 15–19, 21 (Quiz, Quiz History) |
+| **Nguyễn Thị Như Ý** | 01–05, 24 (Splash, Onboarding, Home, Settings) | Đang làm |
+| **Thái Duy Cường** | 06–09, 22–23 (Level, Lesson, Vocabulary, Favorites) | Chưa làm |
+| **Phạm Thành Long** | 10–14, 20 (Flashcard, Progress) | Chưa làm |
+| **Huỳnh Tấn Trung** | 15–19, 21 (Quiz, Quiz History) | Chưa làm |
 
 ## Định hướng triển khai dữ liệu
 
@@ -94,15 +94,50 @@ cd japanese-vocabulary-learning-app
 | `feature/*` | Phát triển tính năng hoặc tài liệu |
 | `fix/*` | Sửa lỗi |
 
-**Quy tắc:** Không push trực tiếp lên `main` hoặc `develop`. Mỗi thay đổi tạo branch riêng và mở Pull Request để thành viên khác review trước khi merge.
+**Quy ước nhóm:** Mỗi thay đổi được thực hiện trên nhánh riêng (`feature/*` hoặc `fix/*`), sau đó mở **Pull Request (PR) vào `develop`**. PR cần ít nhất **1 approval** trước khi merge. Khi phiên bản trên `develop` đã được kiểm thử ổn định, tạo **PR từ `develop` vào `main`**. Không push trực tiếp lên `main` hoặc `develop` trong quy trình làm việc thông thường.
 
-Ví dụ cập nhật README:
+### 1. Tạo nhánh làm việc
+
+Sau khi clone repository và mở terminal tại thư mục dự án:
 
 ```bash
 git switch develop
 git pull origin develop
-git switch -c feature/update-readme-team19
+git switch -c feature/ten-chuc-nang
 ```
+
+Đổi `ten-chuc-nang` thành phần đang làm, ví dụ `feature/flashcard`, `feature/quiz` hoặc `feature/update-readme`. Nếu sửa lỗi, đặt tên nhánh như `fix/quiz-scoring`.
+
+### 2. Commit và push code
+
+Sau khi thay đổi file:
+
+```bash
+git status
+git add .
+git commit -m "feat: add flashcard screen"
+git push -u origin feature/ten-chuc-nang
+```
+
+Thay `feature/ten-chuc-nang` bằng **đúng tên nhánh đang làm**. Các lần cập nhật tiếp theo trên cùng nhánh chỉ cần `git push`.
+
+### 3. Tạo Pull Request
+
+1. Vào tab **Pull requests** trên GitHub và chọn **New pull request**.
+2. Chọn **base: `develop`** và **compare: `feature/ten-chuc-nang`** (hoặc nhánh `fix/*`).
+3. Ghi rõ chức năng đã làm, phần cần kiểm thử và ảnh chụp giao diện nếu có.
+4. Nhờ thành viên khác review; sau khi PR có đủ approval và không có xung đột, tiến hành merge.
+5. Cập nhật `develop` trước khi bắt đầu công việc tiếp theo:
+
+```bash
+git switch develop
+git pull origin develop
+```
+
+### 4. Đưa phiên bản ổn định lên `main`
+
+Khi nhóm đã tích hợp và kiểm thử trên `develop`, tạo PR với **base: `main`** và **compare: `develop`**. Review và merge theo Rulesets của repository.
+
 ## Project Status
 
 **Planning / UI-UX Design (In Progress)**
