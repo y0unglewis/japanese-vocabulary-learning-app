@@ -46,10 +46,10 @@ Nhóm đang thiết kế các màn hình dự kiến như Splash/Onboarding, Hom
 
 | Người phụ trách | Màn hình | Tình trạng |
 |---|---|---|
-| **Nguyễn Thị Như Ý** | 01–05, 24 (Splash, Onboarding, Home, Settings) |
-| **Thái Duy Cường** | 06–09, 22–23 (Level, Lesson, Vocabulary, Favorites) |
-| **Phạm Thành Long** | 10–14, 20 (Flashcard, Progress) |
-| **Huỳnh Tấn Trung**| 15–19, 21 (Quiz, Quiz History) |
+| **Nguyễn Thị Như Ý** | 01–05, 24 (Splash, Onboarding, Home, Settings) | Đang làm |
+| **Thái Duy Cường** | 06–09, 22–23 (Level, Lesson, Vocabulary, Favorites) | Chưa làm |
+| **Phạm Thành Long** | 10–14, 20 (Flashcard, Progress) | Chưa làm |
+| **Huỳnh Tấn Trung** | 15–19, 21 (Quiz, Quiz History) | Chưa làm |
 
 ## Định hướng triển khai dữ liệu
 
@@ -87,22 +87,143 @@ cd japanese-vocabulary-learning-app
 
 ## Git Workflow
 
+Dự án sử dụng Git và GitHub để quản lý mã nguồn, phân chia công việc và tích hợp các chức năng do từng thành viên phát triển.
+
+### 1. Quy ước Branch
+
 | Branch | Mục đích |
 |---|---|
-| `main` | Phiên bản ổn định |
-| `develop` | Tích hợp và kiểm thử |
-| `feature/*` | Phát triển tính năng hoặc tài liệu |
+| `main` | Chứa phiên bản ổn định của ứng dụng |
+| `develop` | Tích hợp và kiểm thử code từ các thành viên |
+| `feature/*` | Phát triển chức năng mới |
 | `fix/*` | Sửa lỗi |
 
-**Quy tắc:** Không push trực tiếp lên `main` hoặc `develop`. Mỗi thay đổi tạo branch riêng và mở Pull Request để thành viên khác review trước khi merge.
+**Quy tắc làm việc:**
 
-Ví dụ cập nhật README:
+- Mỗi thành viên phải tạo **branch riêng từ `develop`** trước khi bắt đầu code.
+- Không làm việc hoặc push trực tiếp lên `main` và `develop`.
+- Sau khi hoàn thành, push code lên branch cá nhân và tạo **Pull Request (PR) vào `develop`**.
+- PR cần được review và có ít nhất **1 approval** trước khi merge.
+- Chỉ đưa code từ `develop` lên `main` thông qua PR sau khi đã tích hợp và kiểm thử ổn định.
+
+### 2. Clone repository (lần đầu)
+
+```bash
+git clone https://github.com/y0unglewis/japanese-vocabulary-learning-app.git
+
+cd japanese-vocabulary-learning-app
+```
+
+### 3. Tạo branch riêng trước khi code
+
+Đảm bảo branch `develop` đã được cập nhật:
 
 ```bash
 git switch develop
 git pull origin develop
-git switch -c feature/update-readme-team19
 ```
+
+Tạo branch mới:
+
+```bash
+git switch -c feature/feature-name
+```
+
+Thay `feature-name` bằng tên chức năng phụ trách.
+
+**Ví dụ:**
+
+- `feature/home`
+- `feature/vocabulary`
+- `feature/flashcard`
+- `feature/quiz`
+- `fix/quiz-scoring`
+
+### 4. Commit và Push code
+
+Sau khi hoàn thành một phần công việc, kiểm tra các file đã thay đổi:
+
+```bash
+git status
+```
+
+Thêm và commit:
+
+```bash
+git add .
+git commit -m "feat: implement flashcard screen"
+```
+
+Push lên branch riêng:
+
+```bash
+git push -u origin feature/flashcard
+```
+
+**Lưu ý:** Thay `feature/flashcard` bằng tên branch đang làm việc. Những lần push tiếp theo trên cùng branch chỉ cần chạy:
+
+```bash
+git push
+```
+
+### 5. Tạo Pull Request vào `develop`
+
+Sau khi push code thành công:
+
+1. Mở repository trên GitHub.
+2. Vào **Pull requests** → **New pull request**.
+3. Chọn:
+   - **Base:** `develop`
+   - **Compare:** branch cá nhân (`feature/*` hoặc `fix/*`).
+4. Đặt tiêu đề và mô tả những thay đổi đã thực hiện.
+5. Chọn **Create pull request**.
+6. Chờ thành viên khác review và approve.
+7. Khi PR đáp ứng yêu cầu review và không có xung đột, tiến hành merge vào `develop`.
+
+**Lưu ý:** `git push` chỉ đưa code lên branch cá nhân. Code chỉ được tích hợp vào `develop` sau khi PR được merge.
+
+### 6. Bắt đầu công việc tiếp theo
+
+Sau khi PR đã được merge, cập nhật branch `develop`:
+
+```bash
+git switch develop
+git pull origin develop
+```
+
+Tạo branch mới cho công việc tiếp theo:
+
+```bash
+git switch -c feature/next-feature
+```
+
+Không tiếp tục phát triển chức năng mới trên branch cũ đã merge.
+
+### 7. Merge `develop` vào `main`
+
+Khi các chức năng đã được tích hợp và kiểm thử ổn định:
+
+1. Vào **Pull requests** → **New pull request**.
+2. Chọn **Base: `main`** và **Compare: `develop`**.
+3. Review những thay đổi trước khi merge.
+4. Merge PR khi đáp ứng các yêu cầu của repository.
+
+`main` được sử dụng để lưu trữ phiên bản ổn định của đồ án.
+
+### 8. Quy ước Commit Message
+
+Sử dụng commit message ngắn gọn, mô tả đúng nội dung thay đổi.
+
+| Prefix | Mục đích | Ví dụ |
+|---|---|---|
+| `feat:` | Thêm chức năng | `feat: add quiz screen` |
+| `fix:` | Sửa lỗi | `fix: correct quiz score` |
+| `docs:` | Cập nhật tài liệu | `docs: update README` |
+| `style:` | Chỉnh giao diện/định dạng | `style: adjust home layout` |
+| `refactor:` | Cải thiện code | `refactor: simplify database helper` |
+
+**Không commit** các file cấu hình cá nhân của IDE, file build, mật khẩu hoặc thông tin nhạy cảm.
+
 ## Project Status
 
 **Planning / UI-UX Design (In Progress)**
